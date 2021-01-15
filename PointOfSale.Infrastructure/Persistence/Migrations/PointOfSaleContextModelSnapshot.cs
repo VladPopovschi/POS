@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using PointOfSale.Infrastructure.Persistence.DbContexts;
 
-namespace PointOfSale.Infrastructure.Migrations
+namespace PointOfSale.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(PointOfSaleContext))]
     partial class PointOfSaleContextModelSnapshot : ModelSnapshot

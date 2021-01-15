@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace PointOfSale.Infrastructure.Migrations
+namespace PointOfSale.Infrastructure.Persistence.Migrations
 {
     public partial class InitialMigration : Migration
     {
