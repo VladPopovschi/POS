@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PointOfSale.Domain.Entities
@@ -16,5 +17,7 @@ namespace PointOfSale.Domain.Entities
         public int ClientId { get; set; }
 
         public Client Client { get; set; }
+
+        public List<SaleTransaction> SaleTransactions { get; set; }
     }
 }
