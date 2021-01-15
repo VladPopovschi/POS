@@ -5,7 +5,7 @@ using PointOfSale.Domain.Entities;
 
 namespace PointOfSale.Application.Interfaces.DbContexts
 {
-    public interface IPointOfSaleDbContext
+    public interface IPointOfSaleContext
     {
         DbSet<Client> Clients { get; set; }
 

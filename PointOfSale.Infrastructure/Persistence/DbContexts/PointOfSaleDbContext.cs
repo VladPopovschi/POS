@@ -4,9 +4,9 @@ using PointOfSale.Domain.Entities;
 
 namespace PointOfSale.Infrastructure.Persistence.DbContexts
 {
-    public class PointOfSaleDbContext : DbContext, IPointOfSaleDbContext
+    public class PointOfSaleContext : DbContext, IPointOfSaleContext
     {
-        public PointOfSaleDbContext(DbContextOptions<PointOfSaleDbContext> options) : base(options)
+        public PointOfSaleContext(DbContextOptions<PointOfSaleContext> options) : base(options)
         {
         }
 
