@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PointOfSale.Application\PointOfSale.Application.csproj" />
     <ProjectReference Include="..\PointOfSale.Domain\PointOfSale.Domain.csproj" />
   </ItemGroup>
 

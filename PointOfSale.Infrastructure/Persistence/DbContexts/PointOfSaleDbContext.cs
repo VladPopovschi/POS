@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PointOfSale.Application.Interfaces.DbContexts;
 using PointOfSale.Domain.Entities;
 
 namespace PointOfSale.Infrastructure.Persistence.DbContexts
 {
-    public class PointOfSaleDbContext : DbContext
+    public class PointOfSaleDbContext : DbContext, IPointOfSaleDbContext
     {
         public PointOfSaleDbContext(DbContextOptions<PointOfSaleDbContext> options) : base(options)
         {
