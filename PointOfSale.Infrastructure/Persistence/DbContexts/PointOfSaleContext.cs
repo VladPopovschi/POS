@@ -19,5 +19,23 @@ namespace PointOfSale.Infrastructure.Persistence.DbContexts
         public DbSet<SaleTransaction> SaleTransactions { get; set; }
 
         public DbSet<SaleTransactionProduct> SaleTransactionProducts { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SaleTransactionProduct>(builder =>
+            {
+                builder
+                    .HasOne<SaleTransaction>()
+                    .WithMany(transaction => transaction.SaleTransactionProducts)
+                    .HasForeignKey(saleTransactionProduct => saleTransactionProduct.SaleTransactionId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                builder
+                    .HasOne<Product>()
+                    .WithMany(product => product.SaleTransactionProducts)
+                    .HasForeignKey(saleTransactionProduct => saleTransactionProduct.ProductId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+        }
     }
 }
