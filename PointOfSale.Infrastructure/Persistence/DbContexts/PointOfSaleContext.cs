@@ -25,16 +25,18 @@ namespace PointOfSale.Infrastructure.Persistence.DbContexts
             modelBuilder.Entity<SaleTransactionProduct>(builder =>
             {
                 builder
-                    .HasOne<SaleTransaction>()
+                    .HasOne<SaleTransaction>(saleTransactionProduct => saleTransactionProduct.SaleTransaction)
                     .WithMany(transaction => transaction.SaleTransactionProducts)
                     .HasForeignKey(saleTransactionProduct => saleTransactionProduct.SaleTransactionId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Restrict)
+                    .IsRequired();
 
                 builder
-                    .HasOne<Product>()
+                    .HasOne<Product>(product => product.Product)
                     .WithMany(product => product.SaleTransactionProducts)
                     .HasForeignKey(saleTransactionProduct => saleTransactionProduct.ProductId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
             });
         }
     }
