@@ -193,7 +193,7 @@ namespace PointOfSale.Infrastructure.Persistence.Migrations
                     b.HasOne("PointOfSale.Domain.Entities.SaleTransaction", "SaleTransaction")
                         .WithMany("SaleTransactionProducts")
                         .HasForeignKey("SaleTransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");

@@ -8,7 +8,7 @@ using PointOfSale.Infrastructure.Persistence.DbContexts;
 namespace PointOfSale.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(PointOfSaleContext))]
-    [Migration("20210115171714_InitialMigration")]
+    [Migration("20210118115637_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,7 +195,7 @@ namespace PointOfSale.Infrastructure.Persistence.Migrations
                     b.HasOne("PointOfSale.Domain.Entities.SaleTransaction", "SaleTransaction")
                         .WithMany("SaleTransactionProducts")
                         .HasForeignKey("SaleTransactionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Product");

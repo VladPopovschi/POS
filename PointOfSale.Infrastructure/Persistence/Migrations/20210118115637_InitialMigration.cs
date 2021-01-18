@@ -116,7 +116,7 @@ namespace PointOfSale.Infrastructure.Persistence.Migrations
                         column: x => x.SaleTransactionId,
                         principalTable: "SaleTransactions",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
