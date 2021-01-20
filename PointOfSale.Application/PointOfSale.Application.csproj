@@ -13,4 +13,11 @@
     <ProjectReference Include="..\PointOfSale.Domain\PointOfSale.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Clients\" />
+    <Folder Include="Stores\" />
+    <Folder Include="SaleTransactions\" />
+    <Folder Include="Products\" />
+  </ItemGroup>
+
 </Project>
