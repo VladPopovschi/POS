@@ -14,10 +14,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Clients\" />
-    <Folder Include="Stores\" />
-    <Folder Include="SaleTransactions\" />
-    <Folder Include="Products\" />
+    <Folder Include="Clients\Commands\" />
+    <Folder Include="Clients\Queries\" />
+    <Folder Include="Products\Commands\" />
+    <Folder Include="Products\Queries\" />
+    <Folder Include="SaleTransactions\Commands\" />
+    <Folder Include="SaleTransactions\Queries\" />
+    <Folder Include="Stores\Commands\" />
+    <Folder Include="Stores\Queries\" />
   </ItemGroup>
 
 </Project>
