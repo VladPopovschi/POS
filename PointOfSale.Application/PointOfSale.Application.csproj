@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Clients\Commands\CreateClientCommand\" />
+    <Folder Include="Clients\Commands\CreateClient\" />
     <Folder Include="Clients\Queries\" />
     <Folder Include="Products\Commands\" />
     <Folder Include="Products\Queries\" />
