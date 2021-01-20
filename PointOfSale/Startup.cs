@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using PointOfSale.Application.DependencyInjection;
 using PointOfSale.Infrastructure.DependencyInjection;
 
 namespace PointOfSale
@@ -21,6 +22,7 @@ namespace PointOfSale
         {
             services.AddControllers();
 
+            services.AddApplication();
             services.AddInfrastructure(Configuration);
 
             services.AddSwaggerGen(options =>
