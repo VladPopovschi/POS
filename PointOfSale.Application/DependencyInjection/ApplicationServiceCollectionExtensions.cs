@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using PointOfSale.Application.Behaviours;
 
 namespace PointOfSale.Application.DependencyInjection
 {
@@ -9,9 +11,9 @@ namespace PointOfSale.Application.DependencyInjection
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
-            // TODO Настроить валидаторы FluentValidation в контейнере зависимостей
-            // TODO Добавить Поведение Pipeline для валидации FluentValidation и настроить этот Pipeline здесь
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }
