@@ -17,6 +17,6 @@ namespace PointOfSale.Application.Interfaces.DbContexts
 
         DbSet<SaleTransactionProduct> SaleTransactionProducts { get; set; }
 
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
