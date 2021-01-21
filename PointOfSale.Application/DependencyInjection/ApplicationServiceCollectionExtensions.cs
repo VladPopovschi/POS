@@ -10,6 +10,9 @@ namespace PointOfSale.Application.DependencyInjection
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
+            // TODO Настроить валидаторы FluentValidation в контейнере зависимостей
+            // TODO Добавить Поведение Pipeline для валидации FluentValidation и настроить этот Pipeline здесь
+
             return services;
         }
     }
