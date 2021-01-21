@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PointOfSale.Infrastructure\PointOfSale.Infrastructure.csproj" />
   </ItemGroup>
 
