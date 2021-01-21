@@ -20,7 +20,9 @@ namespace PointOfSale
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddValidation();
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);
