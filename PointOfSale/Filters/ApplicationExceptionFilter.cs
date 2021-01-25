@@ -12,6 +12,9 @@ namespace PointOfSale.Filters
 
             if (context.Exception is ValidationException)
                 context.Result = new BadRequestObjectResult(exceptionMessage);
+
+            if (context.Exception is NotFoundException)
+                context.Result = new NotFoundObjectResult(exceptionMessage);
         }
     }
 }
