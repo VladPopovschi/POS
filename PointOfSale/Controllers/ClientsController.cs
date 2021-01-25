@@ -18,7 +18,7 @@ namespace PointOfSale.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreateClientCommand), Status200OK)]
+        [ProducesResponseType(typeof(int), Status200OK)]
         [ProducesResponseType(Status400BadRequest)]
         public async Task<ActionResult<int>> Create(CreateClientCommand command)
         {
