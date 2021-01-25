@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Clients.Commands.CreateClient;
+using PointOfSale.Application.Clients.Queries.GetAllClients;
 using PointOfSale.Application.Clients.Queries.GetClientById;
 using PointOfSale.Application.Models;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -47,6 +49,18 @@ namespace PointOfSale.Controllers
             });
 
             return client;
+        }
+
+        /// <summary>
+        /// Получение всех клиентов
+        /// </summary>
+        [HttpGet]
+        [ProducesResponseType(typeof(List<ClientModel>), Status200OK)]
+        public async Task<ActionResult<List<ClientModel>>> GetAll()
+        {
+            var clients = await _sender.Send(new GetAllClientsQuery());
+
+            return clients;
         }
     }
 }
