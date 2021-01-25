@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PointOfSale.Application.DependencyInjection;
+using PointOfSale.Filters;
 using PointOfSale.Infrastructure.DependencyInjection;
 
 namespace PointOfSale
@@ -20,7 +21,7 @@ namespace PointOfSale
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options => options.Filters.Add<ApplicationExceptionFilter>());
 
             services.AddApplication();
             services.AddInfrastructure(Configuration);
