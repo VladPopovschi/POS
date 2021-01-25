@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Clients.Commands.CreateClient;
+using PointOfSale.Application.Clients.Commands.UpdateClient;
 using PointOfSale.Application.Clients.Queries.GetAllClients;
 using PointOfSale.Application.Clients.Queries.GetClientById;
 using PointOfSale.Application.Models;
@@ -61,6 +62,20 @@ namespace PointOfSale.Controllers
             var clients = await _sender.Send(new GetAllClientsQuery());
 
             return clients;
+        }
+
+        /// <summary>
+        /// Обновление клиента
+        /// </summary>
+        [HttpPost]
+        [ProducesResponseType(Status204NoContent)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<IActionResult> Create(UpdateClientCommand command)
+        {
+            await _sender.Send(command);
+
+            return new NoContentResult();
         }
     }
 }
