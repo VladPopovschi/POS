@@ -6,7 +6,7 @@ using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace PointOfSale.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ClientsController : ControllerBase
     {
