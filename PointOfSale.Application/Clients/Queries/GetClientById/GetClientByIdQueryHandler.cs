@@ -21,6 +21,7 @@ namespace PointOfSale.Application.Clients.Queries.GetClientById
         public async Task<ClientModel> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
         {
             var client = await _pointOfSaleContext.Clients
+                .AsNoTracking()
                 .SingleOrDefaultAsync(client => client.Id == request.Id, cancellationToken);
 
             ValidateTheClient(request, client);
