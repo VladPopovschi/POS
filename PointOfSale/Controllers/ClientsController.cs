@@ -22,7 +22,6 @@ namespace PointOfSale.Controllers
         [ProducesResponseType(Status400BadRequest)]
         public async Task<IActionResult> Create(CreateClientCommand command)
         {
-            // TODO Сделать так, чтобы конечная точка работала
             // TODO Добавить фильтр исключений для приложения с логикой обработки исключения
             return new CreatedResult(string.Empty, await _sender.Send(command));
         }
