@@ -38,7 +38,7 @@ namespace PointOfSale.Application.Clients.Commands.CreateClient
         {
             if (await _pointOfSaleContext
                 .Clients
-                .AnyAsync(client => client.Name.ToUpperInvariant() == command.Name.ToUpperInvariant(), cancellationToken))
+                .AnyAsync(client => client.Name.ToUpper() == command.Name.ToUpper(), cancellationToken))
             {
                 throw new ValidationException($"The client with the name {command.Name} already exists in the database.");
             }
