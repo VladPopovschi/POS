@@ -23,10 +23,10 @@ namespace PointOfSale.Application.Clients.Commands.UpdateClient
                 .SingleOrDefaultAsync(client => client.Id == command.Id, cancellationToken);
 
             ValidateTheExistenceOfTheClient(command, client);
+
             await ValidateTheUniquenessOfTheClientName(command, cancellationToken);
 
-            client.Name = command.Name;
-            await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
+            await UpdateTheClient(command, client, cancellationToken);
         }
 
         private static void ValidateTheExistenceOfTheClient(UpdateClientCommand command, Client clientFromDatabase)
@@ -45,6 +45,12 @@ namespace PointOfSale.Application.Clients.Commands.UpdateClient
             {
                 throw new ValidationException($"The client with the name {command.Name} already exists in the database.");
             }
+        }
+
+        private async Task UpdateTheClient(UpdateClientCommand command, Client client, CancellationToken cancellationToken)
+        {
+            client.Name = command.Name;
+            await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
