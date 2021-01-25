@@ -50,6 +50,7 @@ namespace PointOfSale.Application.Clients.Commands.UpdateClient
         private async Task UpdateTheClient(UpdateClientCommand command, Client client, CancellationToken cancellationToken)
         {
             client.Name = command.Name;
+
             await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
         }
     }
