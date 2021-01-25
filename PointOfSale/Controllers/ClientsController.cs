@@ -18,12 +18,15 @@ namespace PointOfSale.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(CreateClientCommand), Status201Created)]
+        [ProducesResponseType(typeof(CreateClientCommand), Status200OK)]
         [ProducesResponseType(Status400BadRequest)]
-        public async Task<IActionResult> Create(CreateClientCommand command)
+        public async Task<ActionResult<int>> Create(CreateClientCommand command)
         {
             // TODO Добавить фильтр исключений для приложения с логикой обработки исключения
-            return new CreatedResult(string.Empty, await _sender.Send(command));
+
+            var createdClientId = await _sender.Send(command);
+
+            return createdClientId;
         }
     }
 }
