@@ -19,19 +19,19 @@ namespace PointOfSale.Application.Clients.Queries.GetClientById
 
         public async Task<Client> Handle(GetClientByIdQuery request, CancellationToken cancellationToken)
         {
-            var foundClient = await _pointOfSaleContext.Clients
+            var client = await _pointOfSaleContext.Clients
                 .SingleOrDefaultAsync(client => client.Id == request.Id, cancellationToken);
 
-            if (foundClient == null)
+            if (client == null)
             {
                 throw new NotFoundException($"The Client with Id {request.Id} not found in the database");
             }
 
             return new Client
             {
-                Id = foundClient.Id,
-                Name = foundClient.Name,
-                TimestampCreated = foundClient.TimestampCreated
+                Id = client.Id,
+                Name = client.Name,
+                TimestampCreated = client.TimestampCreated
             };
         }
     }
