@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +32,12 @@ namespace PointOfSale
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "PointOfSale", Version = "v1" });
+
+                var documentationFilePath = Path.Combine(
+                    AppContext.BaseDirectory,
+                    $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+
+                options.IncludeXmlComments(documentationFilePath);
             });
         }
 

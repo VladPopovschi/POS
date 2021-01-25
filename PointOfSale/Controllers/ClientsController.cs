@@ -19,6 +19,9 @@ namespace PointOfSale.Controllers
             _sender = sender;
         }
 
+        /// <summary>
+        /// Создание клиента
+        /// </summary>
         [HttpPost]
         [ProducesResponseType(typeof(int), Status200OK)]
         [ProducesResponseType(Status400BadRequest)]
@@ -29,6 +32,9 @@ namespace PointOfSale.Controllers
             return createdClientId;
         }
 
+        /// <summary>
+        /// Получение клиента по идентификатору
+        /// </summary>
         [HttpGet("{clientId}")]
         [ProducesResponseType(typeof(ClientModel), Status200OK)]
         [ProducesResponseType(Status400BadRequest)]
