@@ -2,7 +2,7 @@
 
 namespace PointOfSale.Application.Models
 {
-    public class Client
+    public class ClientModel
     {
         public int Id { get; set; }
 
