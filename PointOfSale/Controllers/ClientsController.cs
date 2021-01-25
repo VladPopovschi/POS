@@ -67,11 +67,11 @@ namespace PointOfSale.Controllers
         /// <summary>
         /// Обновление клиента
         /// </summary>
-        [HttpPost]
+        [HttpPatch]
         [ProducesResponseType(Status204NoContent)]
         [ProducesResponseType(Status400BadRequest)]
         [ProducesResponseType(Status404NotFound)]
-        public async Task<IActionResult> Create(UpdateClientCommand command)
+        public async Task<IActionResult> Update(UpdateClientCommand command)
         {
             await _sender.Send(command);
 
