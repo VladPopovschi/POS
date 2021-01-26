@@ -19,6 +19,18 @@ namespace PointOfSale.Application.Stores.Commands.CreateStore
         public async Task<int> Handle(CreateStoreCommand command, CancellationToken cancellationToken)
         {
             await ValidateTheUniquenessOfTheStoreGLN(command, cancellationToken);
+
+            await ValidateTheExistenceOfTheClient(command, cancellationToken);
+        }
+
+        private async Task ValidateTheExistenceOfTheClient(CreateStoreCommand command, CancellationToken cancellationToken)
+        {
+            if (!await _pointOfSaleContext
+                .Clients
+                .AnyAsync(client => client.Id == command.ClientId, cancellationToken))
+            {
+                throw new NotFoundException($"The Client with Id {command.ClientId} not found in the database");
+            }
         }
 
         private async Task ValidateTheUniquenessOfTheStoreGLN(CreateStoreCommand command, CancellationToken cancellationToken)
