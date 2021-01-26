@@ -37,16 +37,6 @@ namespace PointOfSale.Application.Stores.Commands.CreateStore
             return store.Id;
         }
 
-        private async Task ValidateTheExistenceOfTheClient(CreateStoreCommand command, CancellationToken cancellationToken)
-        {
-            if (!await _pointOfSaleContext
-                .Clients
-                .AnyAsync(client => client.Id == command.ClientId, cancellationToken))
-            {
-                throw new NotFoundException($"The Client with Id {command.ClientId} not found in the database");
-            }
-        }
-
         private async Task ValidateTheUniquenessOfTheStoreGLN(CreateStoreCommand command, CancellationToken cancellationToken)
         {
             if (await _pointOfSaleContext
@@ -54,6 +44,16 @@ namespace PointOfSale.Application.Stores.Commands.CreateStore
                 .AnyAsync(store => store.GLN.ToUpper() == command.GLN.ToUpper(), cancellationToken))
             {
                 throw new ValidationException($"A store with GLN {command.GLN} already exists in the database.");
+            }
+        }
+
+        private async Task ValidateTheExistenceOfTheClient(CreateStoreCommand command, CancellationToken cancellationToken)
+        {
+            if (!await _pointOfSaleContext
+                .Clients
+                .AnyAsync(client => client.Id == command.ClientId, cancellationToken))
+            {
+                throw new NotFoundException($"The Client with Id {command.ClientId} not found in the database");
             }
         }
     }
