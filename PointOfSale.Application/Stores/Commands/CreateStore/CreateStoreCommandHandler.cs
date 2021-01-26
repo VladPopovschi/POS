@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PointOfSale.Application.Exceptions;
 using PointOfSale.Application.Interfaces.DbContexts;
+using PointOfSale.Domain.Entities;
 
 namespace PointOfSale.Application.Stores.Commands.CreateStore
 {
@@ -21,6 +23,18 @@ namespace PointOfSale.Application.Stores.Commands.CreateStore
             await ValidateTheUniquenessOfTheStoreGLN(command, cancellationToken);
 
             await ValidateTheExistenceOfTheClient(command, cancellationToken);
+
+            var store = new Store
+            {
+                GLN = command.GLN,
+                TimestampCreated = DateTimeOffset.UtcNow,
+                ClientId = command.ClientId,
+            };
+
+            _pointOfSaleContext.Stores.Add(store);
+            await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
+
+            return store.Id;
         }
 
         private async Task ValidateTheExistenceOfTheClient(CreateStoreCommand command, CancellationToken cancellationToken)
