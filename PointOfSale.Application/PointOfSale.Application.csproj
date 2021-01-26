@@ -19,7 +19,6 @@
     <Folder Include="Products\Queries\" />
     <Folder Include="SaleTransactions\Commands\" />
     <Folder Include="SaleTransactions\Queries\" />
-    <Folder Include="Stores\Queries\" />
   </ItemGroup>
 
 </Project>
