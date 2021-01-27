@@ -29,9 +29,9 @@ namespace PointOfSale.Application.Stores.Queries.GetAllClientStores
 
             ValidateTheExistenceOfTheClient(query, client);
 
-            var storeModels = new List<StoreModel>();
+            var clientStores = new List<StoreModel>();
 
-            client.Stores.ForEach(store => storeModels.Add(new StoreModel
+            client.Stores.ForEach(store => clientStores.Add(new StoreModel
             {
                 Id = store.Id,
                 GLN = store.GLN,
@@ -39,7 +39,7 @@ namespace PointOfSale.Application.Stores.Queries.GetAllClientStores
                 TimestampCreated = store.TimestampCreated
             }));
 
-            return storeModels;
+            return clientStores;
         }
 
         private static void ValidateTheExistenceOfTheClient(GetAllClientStoresQuery query, Client clientFromDatabase)
