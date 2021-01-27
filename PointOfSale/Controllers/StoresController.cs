@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Models;
 using PointOfSale.Application.Stores.Commands.CreateStore;
+using PointOfSale.Application.Stores.Queries.GetAllClientStores;
 using PointOfSale.Application.Stores.Queries.GetStoreById;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
@@ -48,6 +50,23 @@ namespace PointOfSale.Controllers
             });
 
             return store;
+        }
+
+        /// <summary>
+        /// Получение всех магазинов клиента
+        /// </summary>
+        [HttpGet("AllClientStores/{clientId}")]
+        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<ActionResult<List<StoreModel>>> GetAllClientStores(int clientId)
+        {
+            var clientStores = await _sender.Send(new GetAllClientStoresQuery
+            {
+                ClientId = clientId
+            });
+
+            return clientStores;
         }
     }
 }
