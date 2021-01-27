@@ -23,6 +23,10 @@ namespace PointOfSale.Application.Stores.Commands.UpdateStore
                 .SingleOrDefaultAsync(store => store.Id == command.Id, cancellationToken);
 
             ValidateTheExistenceOfTheStore(command, store);
+
+            await ValidateTheUniquenessOfTheStoreGLN(command, cancellationToken);
+
+            await UpdateTheStore(command, store, cancellationToken);
         }
 
         private static void ValidateTheExistenceOfTheStore(UpdateStoreCommand command, Store storeFromDatabase)
@@ -31,6 +35,23 @@ namespace PointOfSale.Application.Stores.Commands.UpdateStore
             {
                 throw new NotFoundException($"The Store with Id {command.Id} not found in the database");
             }
+        }
+
+        private async Task ValidateTheUniquenessOfTheStoreGLN(UpdateStoreCommand command, CancellationToken cancellationToken)
+        {
+            if (await _pointOfSaleContext
+                .Stores
+                .AnyAsync(store => store.GLN.ToUpper() == command.GLN.ToUpper(), cancellationToken))
+            {
+                throw new ValidationException($"A store with GLN {command.GLN} already exists in the database.");
+            }
+        }
+
+        private async Task UpdateTheStore(UpdateStoreCommand command, Store store, CancellationToken cancellationToken)
+        {
+            store.GLN = command.GLN;
+
+            await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
