@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Models;
 using PointOfSale.Application.Stores.Commands.CreateStore;
+using PointOfSale.Application.Stores.Commands.UpdateStore;
 using PointOfSale.Application.Stores.Queries.GetAllClientStores;
 using PointOfSale.Application.Stores.Queries.GetStoreById;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -67,6 +68,20 @@ namespace PointOfSale.Controllers
             });
 
             return clientStores;
+        }
+
+        /// <summary>
+        /// Обновление магазина
+        /// </summary>
+        [HttpPatch]
+        [ProducesResponseType(Status204NoContent)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<IActionResult> Update(UpdateStoreCommand command)
+        {
+            await _sender.Send(command);
+
+            return new NoContentResult();
         }
     }
 }
