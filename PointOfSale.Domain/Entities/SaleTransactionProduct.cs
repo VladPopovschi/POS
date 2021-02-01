@@ -11,9 +11,6 @@ namespace PointOfSale.Domain.Entities
 
         public decimal ProductPrice { get; set; }
 
-        [Required]
-        public string ProductPriceCurrency { get; set; }
-
         public int SaleTransactionId { get; set; }
 
         public int ProductId { get; set; }

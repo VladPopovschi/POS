@@ -19,9 +19,6 @@ namespace PointOfSale.Domain.Entities
 
         public decimal Price { get; set; }
 
-        [Required]
-        public string PriceCurrency { get; set; }
-
         public string ImageURL { get; set; }
 
         public DateTimeOffset TimestampCreated { get; set; }
