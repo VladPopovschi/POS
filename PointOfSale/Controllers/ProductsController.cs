@@ -54,7 +54,7 @@ namespace PointOfSale.Controllers
         /// <summary>
         /// Получение продукта по GTIN
         /// </summary>
-        [HttpGet("{productGTIN}")]
+        [HttpGet("ByGTIN/{productGTIN}")]
         [ProducesResponseType(Status200OK)]
         [ProducesResponseType(Status400BadRequest)]
         [ProducesResponseType(Status404NotFound)]
