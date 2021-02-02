@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using PointOfSale.Application.Models;
 using PointOfSale.Application.Products.Commands.CreateProduct;
+using PointOfSale.Application.Products.Queries.GetProductById;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace PointOfSale.Controllers
@@ -29,6 +31,23 @@ namespace PointOfSale.Controllers
             var createdProductId = await _sender.Send(command);
 
             return createdProductId;
+        }
+
+        /// <summary>
+        /// Получение продукта по идентификатору
+        /// </summary>
+        [HttpGet("{productId}")]
+        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<ActionResult<ProductModel>> GetById(int productId)
+        {
+            var product = await _sender.Send(new GetProductByIdQuery
+            {
+                Id = productId
+            });
+
+            return product;
         }
     }
 }
