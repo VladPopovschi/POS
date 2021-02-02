@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Models;
 using PointOfSale.Application.Products.Commands.CreateProduct;
+using PointOfSale.Application.Products.Queries.GetProductByGTIN;
 using PointOfSale.Application.Products.Queries.GetProductById;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
@@ -45,6 +46,23 @@ namespace PointOfSale.Controllers
             var product = await _sender.Send(new GetProductByIdQuery
             {
                 Id = productId
+            });
+
+            return product;
+        }
+
+        /// <summary>
+        /// Получение продукта по GTIN
+        /// </summary>
+        [HttpGet("{productGTIN}")]
+        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<ActionResult<ProductModel>> GetByGTIN(string productGTIN)
+        {
+            var product = await _sender.Send(new GetProductByGTINQuery
+            {
+                GTIN = productGTIN
             });
 
             return product;
