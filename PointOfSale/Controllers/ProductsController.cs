@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Models;
 using PointOfSale.Application.Products.Commands.CreateProduct;
+using PointOfSale.Application.Products.Commands.UpdateProduct;
 using PointOfSale.Application.Products.Queries.GetAllClientProducts;
 using PointOfSale.Application.Products.Queries.GetProductByGTIN;
 using PointOfSale.Application.Products.Queries.GetProductById;
@@ -85,6 +86,20 @@ namespace PointOfSale.Controllers
             });
 
             return clientProducts;
+        }
+
+        /// <summary>
+        /// Обновление продукта
+        /// </summary>
+        [HttpPatch]
+        [ProducesResponseType(Status204NoContent)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<IActionResult> Update(UpdateProductCommand command)
+        {
+            await _sender.Send(command);
+
+            return new NoContentResult();
         }
     }
 }
