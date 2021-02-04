@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PointOfSale.Application.Models;
 using PointOfSale.Application.Products.Commands.CreateProduct;
+using PointOfSale.Application.Products.Queries.GetAllClientProducts;
 using PointOfSale.Application.Products.Queries.GetProductByGTIN;
 using PointOfSale.Application.Products.Queries.GetProductById;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -66,6 +68,23 @@ namespace PointOfSale.Controllers
             });
 
             return product;
+        }
+
+        /// <summary>
+        /// Получение всех продуктов клиента
+        /// </summary>
+        [HttpGet("AllClientProducts/{clientId}")]
+        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<ActionResult<List<ProductModel>>> GetAllClientProducts(int clientId)
+        {
+            var clientProducts = await _sender.Send(new GetAllClientProductsQuery
+            {
+                ClientId = clientId
+            });
+
+            return clientProducts;
         }
     }
 }
