@@ -1,10 +1,13 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PointOfSale.Application.Exceptions;
 using PointOfSale.Application.Interfaces.DbContexts;
+using PointOfSale.Domain.Entities;
 
 namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransaction
 {
@@ -27,6 +30,20 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
 
             await ValidateTheExistenceOfTransactionProducts(command, cancellationToken);
             await ValidateIfTheProductsBelongToTheStoreClient(command, cancellationToken);
+
+            //Расчитать цену транзакции, суммировав умножение всех продуктов на продаваемое количество
+            //Создание сущностей SaleTransactionProduct, чтобы присвоить этот список свойству SaleTransactionProducts
+
+            var transaction = new SaleTransaction
+            {
+                TimestampCreated = DateTimeOffset.UtcNow,
+                Price = 0,
+                StoreId = command.StoreId,
+                SaleTransactionProducts = new List<SaleTransactionProduct>
+                {
+
+                }
+            };
         }
 
         private async Task ValidateTheExistenceOfTheStore(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
