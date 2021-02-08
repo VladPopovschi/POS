@@ -26,7 +26,6 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             await ValidateTheExistenceOfTheStore(command, cancellationToken);
 
             await ValidateTheExistenceOfTransactionProducts(command, cancellationToken);
-
             await ValidateIfTheProductsBelongToTheStoreClient(command, cancellationToken);
         }
 
@@ -61,15 +60,26 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             CreateSaleTransactionCommand command,
             CancellationToken cancellationToken)
         {
+            var clientId = (await _pointOfSaleContext
+                .Stores
+                .AsNoTracking()
+                .SingleAsync(store => store.Id == command.StoreId, cancellationToken))
+                .ClientId;
+
             var productIds = command.SaleTransactionProducts.Select(product => product.ProductId);
 
             foreach (var productId in productIds)
             {
-                if (!await _pointOfSaleContext
+                var productClientId = (await _pointOfSaleContext
                     .Products
-                    .AnyAsync(product => product.Id == productId, cancellationToken))
+                    .AsNoTracking()
+                    .SingleAsync(product => product.Id == productId, cancellationToken)).ClientId;
+
+                if (productClientId != clientId)
                 {
-                    throw new ValidationException($"The Product with Id {productId} not found in the database");
+                    throw new ValidationException($"The client of the product that has identifier {productId} " +
+                                                  "is different from the client of the store " +
+                                                  "where the sale transaction took place.");
                 }
             }
         }
