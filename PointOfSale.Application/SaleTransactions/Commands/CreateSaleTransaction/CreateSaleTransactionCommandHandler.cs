@@ -27,13 +27,12 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             await ValidateTheExistenceOfTransactionProducts(command, cancellationToken);
             await ValidateIfTheProductsBelongToTheStoreClient(command, cancellationToken);
 
-            //Расчитать цену транзакции, суммировав умножение всех продуктов на продаваемое количество
             //Создание сущностей SaleTransactionProduct, чтобы присвоить этот список свойству SaleTransactionProducts
 
             var transaction = new SaleTransaction
             {
                 TimestampCreated = DateTimeOffset.UtcNow,
-                Price = 0,
+                Price = await GetThePriceOfTheTransaction(command, cancellationToken),
                 StoreId = command.StoreId,
                 SaleTransactionProducts = new List<SaleTransactionProduct>
                 {
@@ -95,6 +94,23 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
                                                   "where the sale transaction took place.");
                 }
             }
+        }
+
+        private async Task<decimal> GetThePriceOfTheTransaction(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
+        {
+            decimal transactionPrice = 0;
+
+            foreach (var saleTransactionProduct in command.SaleTransactionProducts)
+            {
+                var product = await _pointOfSaleContext
+                    .Products
+                    .AsNoTracking()
+                    .SingleAsync(product => product.Id == saleTransactionProduct.ProductId, cancellationToken);
+
+                transactionPrice += product.Price * saleTransactionProduct.Quantity;
+            }
+
+            return transactionPrice;
         }
     }
 }
