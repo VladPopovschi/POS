@@ -22,10 +22,6 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
 
         protected override async Task Handle(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
         {
-            // Валидация существования магазина
-            // Валидация существования каждого продукта
-            // Валидация принадлежности каждого продукта клиента магазина
-
             await ValidateTheExistenceOfTheStore(command, cancellationToken);
 
             await ValidateTheExistenceOfTransactionProducts(command, cancellationToken);
