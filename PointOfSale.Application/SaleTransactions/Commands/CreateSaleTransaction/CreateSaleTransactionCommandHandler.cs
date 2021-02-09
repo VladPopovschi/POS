@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,17 +26,27 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             await ValidateTheExistenceOfTransactionProducts(command, cancellationToken);
             await ValidateIfTheProductsBelongToTheStoreClient(command, cancellationToken);
 
-            //Создание сущностей SaleTransactionProduct, чтобы присвоить этот список свойству SaleTransactionProducts
-
             var transaction = new SaleTransaction
             {
                 TimestampCreated = DateTimeOffset.UtcNow,
                 Price = await GetThePriceOfTheTransaction(command, cancellationToken),
                 StoreId = command.StoreId,
-                SaleTransactionProducts = new List<SaleTransactionProduct>
-                {
+                SaleTransactionProducts = command.SaleTransactionProducts
+                    .Select(saleTransactionProduct =>
+                    {
+                        var product = _pointOfSaleContext
+                            .Products
+                            .AsNoTracking()
+                            .Single(product => product.Id == saleTransactionProduct.ProductId);
 
-                }
+                        return new SaleTransactionProduct
+                        {
+                            Quantity = saleTransactionProduct.Quantity,
+                            ProductPrice = product.Price,
+                            ProductId = saleTransactionProduct.ProductId,
+                        };
+                    })
+                    .ToList()
             };
         }
 
