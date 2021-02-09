@@ -43,7 +43,7 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
                         {
                             Quantity = saleTransactionProduct.Quantity,
                             ProductPrice = product.Price,
-                            ProductId = saleTransactionProduct.ProductId,
+                            ProductId = saleTransactionProduct.ProductId
                         };
                     })
                     .ToList()
