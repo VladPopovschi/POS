@@ -48,6 +48,9 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
                     })
                     .ToList()
             };
+
+            await _pointOfSaleContext.SaleTransactions.AddAsync(transaction, cancellationToken);
+            await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
         }
 
         private async Task ValidateTheExistenceOfTheStore(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
