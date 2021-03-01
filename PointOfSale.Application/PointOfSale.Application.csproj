@@ -15,8 +15,4 @@
     <ProjectReference Include="..\PointOfSale.Domain\PointOfSale.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SaleTransactions\Queries\" />
-  </ItemGroup>
-
 </Project>
