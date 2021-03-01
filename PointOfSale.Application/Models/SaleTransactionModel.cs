@@ -13,6 +13,6 @@ namespace PointOfSale.Application.Models
 
         public int StoreId { get; set; }
 
-        public List<SaleTransactionProductModel> SaleTransactionProducts { get; set; }
+        public List<SaleTransactionModelProductModel> SaleTransactionProducts { get; set; }
     }
 }

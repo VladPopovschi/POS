@@ -1,6 +1,6 @@
 ﻿namespace PointOfSale.Application.Models
 {
-    public class SaleTransactionProductModel
+    public class SaleTransactionModelProductModel
     {
         public int Id { get; set; }
 

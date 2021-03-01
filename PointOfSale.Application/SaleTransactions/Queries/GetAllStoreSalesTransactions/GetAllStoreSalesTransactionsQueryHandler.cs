@@ -46,7 +46,7 @@ namespace PointOfSale.Application.SaleTransactions.Queries.GetAllStoreSalesTrans
                     Price = saleTransaction.Price,
                     StoreId = saleTransaction.StoreId,
                     SaleTransactionProducts = saleTransaction.SaleTransactionProducts
-                    .Select(saleTransactionProduct => new SaleTransactionProductModel
+                    .Select(saleTransactionProduct => new SaleTransactionModelProductModel
                     {
                         Id = saleTransactionProduct.Id,
                         Quantity = saleTransactionProduct.Quantity,
