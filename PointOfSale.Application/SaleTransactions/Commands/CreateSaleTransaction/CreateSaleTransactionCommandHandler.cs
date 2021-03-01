@@ -58,7 +58,7 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             await _pointOfSaleContext.SaleTransactions.AddAsync(transaction, cancellationToken);
             await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
 
-            await ProduceMessageToEventHub(cancellationToken, transaction);
+            await ProduceMessageToEventHub(transaction, cancellationToken);
         }
 
         private async Task ValidateTheExistenceOfTheStore(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
@@ -133,7 +133,7 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             return transactionPrice;
         }
 
-        private async Task ProduceMessageToEventHub(CancellationToken cancellationToken, SaleTransaction transaction)
+        private async Task ProduceMessageToEventHub(SaleTransaction transaction, CancellationToken cancellationToken)
         {
             var producer = await _eventHubProducerProvider.GetProducer("pointofsale");
 
