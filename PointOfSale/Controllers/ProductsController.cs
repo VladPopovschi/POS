@@ -8,6 +8,7 @@ using PointOfSale.Application.Products.Commands.UpdateProduct;
 using PointOfSale.Application.Products.Queries.GetAllClientProducts;
 using PointOfSale.Application.Products.Queries.GetProductByGTIN;
 using PointOfSale.Application.Products.Queries.GetProductById;
+using PointOfSale.Application.Products.Queries.GetQuantityOfClientProductsSold;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace PointOfSale.Controllers
@@ -86,6 +87,24 @@ namespace PointOfSale.Controllers
             });
 
             return clientProducts;
+        }
+
+        /// <summary>
+        /// Получение количества проданных продуктов клиента
+        /// </summary>
+        [HttpGet("Clients/{clientId}/QuantityOfClientProductsSold")]
+        [ProducesResponseType(Status200OK)]
+        [ProducesResponseType(Status400BadRequest)]
+        [ProducesResponseType(Status404NotFound)]
+        public async Task<ActionResult<List<QuantityOfProductSoldModel>>> GetQuantityOfClientProductsSold(int clientId)
+        {
+            var quantityOfClientProductSoldModels = await _sender.Send(
+                new GetQuantityOfClientProductsSoldQuery
+                {
+                    ClientId = clientId
+                });
+
+            return quantityOfClientProductSoldModels;
         }
 
         /// <summary>
