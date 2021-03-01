@@ -36,13 +36,16 @@ namespace PointOfSale.Application.SaleTransactions.Queries.GetAllStoreSalesTrans
 
             var storeSaleTransactions = new List<SaleTransactionModel>();
 
-            store.SaleTransactions.ForEach(saleTransaction => storeSaleTransactions.Add(new SaleTransactionModel
-            {
-                Id = saleTransaction.Id,
-                TimestampCreated = saleTransaction.TimestampCreated,
-                Price = saleTransaction.Price,
-                StoreId = saleTransaction.StoreId,
-                SaleTransactionProducts = saleTransaction.SaleTransactionProducts
+            store.SaleTransactions
+                .OrderByDescending(saleTransaction => saleTransaction.TimestampCreated)
+                .ToList()
+                .ForEach(saleTransaction => storeSaleTransactions.Add(new SaleTransactionModel
+                {
+                    Id = saleTransaction.Id,
+                    TimestampCreated = saleTransaction.TimestampCreated,
+                    Price = saleTransaction.Price,
+                    StoreId = saleTransaction.StoreId,
+                    SaleTransactionProducts = saleTransaction.SaleTransactionProducts
                     .Select(saleTransactionProduct => new SaleTransactionProductModel
                     {
                         Id = saleTransactionProduct.Id,
@@ -52,7 +55,7 @@ namespace PointOfSale.Application.SaleTransactions.Queries.GetAllStoreSalesTrans
                         ProductId = saleTransactionProduct.ProductId
                     })
                     .ToList()
-            }));
+                }));
 
             return storeSaleTransactions;
         }
