@@ -2,10 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MassTransit.EventHubIntegration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PointOfSale.Application.Exceptions;
 using PointOfSale.Application.Interfaces.DbContexts;
+using PointOfSale.Application.Models;
 using PointOfSale.Domain.Entities;
 
 namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransaction
@@ -13,10 +15,14 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
     public class CreateSaleTransactionCommandHandler : AsyncRequestHandler<CreateSaleTransactionCommand>
     {
         private readonly IPointOfSaleContext _pointOfSaleContext;
+        private readonly IEventHubProducerProvider _eventHubProducerProvider;
 
-        public CreateSaleTransactionCommandHandler(IPointOfSaleContext pointOfSaleContext)
+        public CreateSaleTransactionCommandHandler(
+            IPointOfSaleContext pointOfSaleContext,
+            IEventHubProducerProvider eventHubProducerProvider)
         {
             _pointOfSaleContext = pointOfSaleContext;
+            _eventHubProducerProvider = eventHubProducerProvider;
         }
 
         protected override async Task Handle(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
@@ -51,6 +57,8 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
 
             await _pointOfSaleContext.SaleTransactions.AddAsync(transaction, cancellationToken);
             await _pointOfSaleContext.SaveChangesAsync(cancellationToken);
+
+            await ProduceMessageToEventHub(cancellationToken, transaction);
         }
 
         private async Task ValidateTheExistenceOfTheStore(CreateSaleTransactionCommand command, CancellationToken cancellationToken)
@@ -123,6 +131,30 @@ namespace PointOfSale.Application.SaleTransactions.Commands.CreateSaleTransactio
             }
 
             return transactionPrice;
+        }
+
+        private async Task ProduceMessageToEventHub(CancellationToken cancellationToken, SaleTransaction transaction)
+        {
+            var producer = await _eventHubProducerProvider.GetProducer("pointofsale");
+
+            await producer.Produce(
+                new SaleTransactionHappenedMessage
+                {
+                    Id = transaction.Id,
+                    TimestampCreated = transaction.TimestampCreated,
+                    Price = transaction.Price,
+                    StoreId = transaction.StoreId,
+                    SaleTransactionProducts = transaction.SaleTransactionProducts.Select(
+                            product => new SaleTransactionHappenedMessageProduct
+                            {
+                                Id = product.Id,
+                                Quantity = product.Quantity,
+                                ProductPrice = product.ProductPrice,
+                                ProductId = product.ProductId
+                            })
+                        .ToList()
+                },
+                cancellationToken);
         }
     }
 }
